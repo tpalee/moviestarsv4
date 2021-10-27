@@ -12,3 +12,9 @@ VALUES
 ('thieu', 'ROLE_USER'),
 ('thieu', 'ROLE_ADMIN');
 
+
+
+
+INSERT INTO movies(movie_title, movie_genre, movie_description,movie_rating,username)
+VALUES
+('Terminator','action','Arnold shoots everybody',0,'user');

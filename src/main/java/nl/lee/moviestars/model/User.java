@@ -1,7 +1,11 @@
 package nl.lee.moviestars.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,6 +22,10 @@ public class User {
     @Column(nullable = false)
     private boolean enabled = true;
 
+    @Column(name="full_name")
+    private String fullName;
+
+
     @Column
     private String email;
 
@@ -28,6 +36,33 @@ public class User {
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<nl.lee.moviestars.model.Authority> authorities = new HashSet<>();
+
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JsonManagedReference(value="user-movie")
+    //@JsonIgnore
+    private List<Movie> movies=new ArrayList<>();
+
+
+    //User to Reviews relation
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference(value="user-review")
+    //@JsonIgnore
+    List<Review> reviews=new ArrayList<>();
+
+
 
     public String getUsername() { return username; }
     public void setUsername(String username) {
@@ -43,8 +78,13 @@ public class User {
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email;}
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
     public Set<nl.lee.moviestars.model.Authority> getAuthorities() { return authorities; }
     public void setAuthorities(Set<nl.lee.moviestars.model.Authority> authorities) { this.authorities = authorities; }
+
+
+
 
     public void addAuthority(nl.lee.moviestars.model.Authority authority) {
         this.authorities.add(authority);
@@ -59,4 +99,12 @@ public class User {
         this.authorities.removeIf(authority -> authority.getAuthority().equalsIgnoreCase(authorityString));
     }
 
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 }

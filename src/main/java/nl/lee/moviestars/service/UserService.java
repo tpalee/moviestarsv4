@@ -1,11 +1,9 @@
 package nl.lee.moviestars.service;
 
 import nl.lee.moviestars.dto.request.UserPostRequest;
-import nl.lee.moviestars.exceptions.BadRequestException;
-import nl.lee.moviestars.exceptions.InvalidPasswordException;
-import nl.lee.moviestars.exceptions.NotAuthorizedException;
-import nl.lee.moviestars.exceptions.UserNotFoundException;
+import nl.lee.moviestars.exceptions.*;
 import nl.lee.moviestars.model.Authority;
+import nl.lee.moviestars.model.Movie;
 import nl.lee.moviestars.model.User;
 import nl.lee.moviestars.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,6 +172,16 @@ public class UserService {
         }
         else {
             throw new NotAuthorizedException();
+        }
+    }
+
+    //get all movies of a user
+    public Iterable<Movie> getMovies(String id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return user.get().getMovies();
+        } else {
+            throw new RecordNotFoundException();
         }
     }
 

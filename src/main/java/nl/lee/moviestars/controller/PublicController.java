@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PublicController {
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/public")
     public String hello() {
         return "Hello everybody";
     }
