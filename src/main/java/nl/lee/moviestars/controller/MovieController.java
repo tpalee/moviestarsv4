@@ -1,5 +1,6 @@
 package nl.lee.moviestars.controller;
 
+import nl.lee.moviestars.model.Image;
 import nl.lee.moviestars.model.Movie;
 
 import nl.lee.moviestars.model.Review;
