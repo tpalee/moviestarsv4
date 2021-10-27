@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/images")
 @CrossOrigin
 
 
@@ -48,7 +48,7 @@ public class ImageController {
 
     //replace an existing image
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Object> updateFile(@PathVariable("id") long id, @RequestBody MultipartFile newMultipartFile) throws IOException {
+    public ResponseEntity<Object> updateFile(@PathVariable("id") long id, @RequestParam("file")MultipartFile newMultipartFile) throws IOException {
         imageService.updateFile(id, newMultipartFile);
         return ResponseEntity.noContent().build();
     }

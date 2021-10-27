@@ -68,14 +68,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers(PATCH,"/users/{^[\\w]$}/password").authenticated()
-                .antMatchers("/users/**").hasAnyRole("USER","ADMIN")
-                .antMatchers(POST,"/authenticate").permitAll()
                 .antMatchers(POST,"/signup").permitAll()
+                .antMatchers("/users/{id}/movies").hasAnyRole("USER","ADMIN")
+                .antMatchers("/users/**").hasAnyRole("USER","ADMIN")
+
+
                 .antMatchers(GET,"/public").permitAll()
+                .antMatchers("/users/{id}/movies").hasAnyRole("USER","ADMIN")
+                .antMatchers("/movies/{id}/images").hasAnyRole("USER","ADMIN")
                 .antMatchers("/movies/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/reviews/**").hasAnyRole("USER","ADMIN")
-                .antMatchers("/files/**").hasAnyRole("USER","ADMIN")
-                .antMatchers("/movies/{id}/files/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/images/**").hasAnyRole("USER","ADMIN")
+
+                .antMatchers(POST,"/authenticate").permitAll()
                 .anyRequest().denyAll()
                 .and()
                 .csrf().disable()

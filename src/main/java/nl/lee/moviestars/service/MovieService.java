@@ -1,6 +1,7 @@
 package nl.lee.moviestars.service;
 
 import nl.lee.moviestars.exceptions.RecordNotFoundException;
+import nl.lee.moviestars.model.Image;
 import nl.lee.moviestars.model.Movie;
 import nl.lee.moviestars.model.Review;
 import nl.lee.moviestars.model.User;
@@ -8,6 +9,7 @@ import nl.lee.moviestars.repository.ImageRepository;
 import nl.lee.moviestars.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -86,7 +88,7 @@ public class MovieService {
     }
 
 
-    public void assignImageToMovie(Long id, Long imageId) {
+/*    public void assignImageToMovie(Long id, Long imageId) {
 
         var optionalMovie = movieRepository.findById(id);
 
@@ -102,13 +104,25 @@ public class MovieService {
 
             movieRepository.save(movie);
 
+
         } else {
 
             throw new RecordNotFoundException();
 
-        }
+        }*/
 
+    //update an existing movie
+    public void assignImageToMovie(Long id, Long imageId) {
+        if ((!movieRepository.existsById(id))||(!imageRepository.existsById(imageId))) throw new RecordNotFoundException();
+        Movie movie = movieRepository.findById(id).get();
+        Image image=imageRepository.findById(imageId).get();
+        movie.setImage(image);
+        movieRepository.save(movie);
     }
+
+
+
+
 
 
 
