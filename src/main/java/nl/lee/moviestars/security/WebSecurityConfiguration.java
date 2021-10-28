@@ -66,7 +66,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()//DEBUG
+                //.antMatchers("/**").permitAll()//DEBUG
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers(PATCH,"/users/{^[\\w]$}/password").authenticated()
                 .antMatchers(POST,"/signup").permitAll()

@@ -76,9 +76,9 @@ public class MovieController {
     }
 
 //update image in movie
-    @PatchMapping(value = "/{id}/images")
-    public ResponseEntity<Object> patchImage(@PathVariable("id") Long id, @RequestBody Long imageId) {
-        movieService.assignImageToMovie(id,imageId);
+    @PatchMapping(value = "/{id}/images/{imageId}")
+    public ResponseEntity<Object> patchImage(@PathVariable("id") Long id, @PathVariable("imageId") Long imageId) {
+         movieService.assignImageToMovie(id, imageId);
         return ResponseEntity.noContent().build();
     }
 

@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Collection;
 
 @RestController
@@ -42,8 +44,10 @@ public class ImageController {
     // Upload an image to db
     @PostMapping
     public ResponseEntity<Object> upLoadFile(@RequestParam("file")MultipartFile multipartFile) throws IOException {
-        imageService.uploadFile(multipartFile);
-        return ResponseEntity.noContent().build();
+        Long newImageId = imageService.uploadFile(multipartFile);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(newImageId).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     //replace an existing image

@@ -29,6 +29,16 @@ import java.util.List;
         @Column(name = "movie_rating")
         private double movieRating= 1.0;
 
+        @Transient
+       private Long imageId;
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
+    }
 
     public User getUser() {
         return user;

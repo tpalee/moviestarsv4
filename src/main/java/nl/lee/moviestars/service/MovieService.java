@@ -50,6 +50,9 @@ public class MovieService {
     //create a new movie
     public long createMovie(Movie movie) {
         Movie newMovie = movieRepository.save(movie);
+        Image image=imageRepository.findById(movie.getImageId()).get();
+        newMovie.setImage(image);
+        movieRepository.save(newMovie);
         return newMovie.getId();
     }
 

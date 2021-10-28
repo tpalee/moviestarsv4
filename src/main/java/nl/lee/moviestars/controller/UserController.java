@@ -85,7 +85,7 @@ public class UserController {
 
 
     //get added movies of the user
-    @GetMapping(value = "/{id}/movies")
+    @GetMapping(value = "users/{id}/movies")
     public ResponseEntity getMovies(@PathVariable("id") String id) {
         Iterable<Movie> movies=userService.getMovies(id);
         return ResponseEntity.ok(movies);
