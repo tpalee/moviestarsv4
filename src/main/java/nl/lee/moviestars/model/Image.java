@@ -8,10 +8,12 @@ import javax.persistence.*;
 @Table(name = "images")
 public class Image {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="image_id")
-    private long imageId;
+    @Column(name="id")
+    private long id;
 
     @Column(name = "file_name")
     private String fileName;
@@ -38,11 +40,11 @@ public class Image {
 
 
     public long getId() {
-        return imageId;
+        return id;
     }
 
     public void setId(long imageId) {
-        this.imageId = imageId;
+        this.id = imageId;
     }
 
     public String getFileName() {

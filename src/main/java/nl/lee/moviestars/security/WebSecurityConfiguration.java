@@ -67,24 +67,27 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 //.antMatchers("/**").permitAll()//DEBUG
+                .antMatchers(POST,"/authenticate").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers(POST,"/users/signup").permitAll()
+                .antMatchers(DELETE,"/users/{username}").hasRole("ADMIN")
                 .antMatchers(PATCH,"/users/{^[\\w]$}/password").authenticated()
-                .antMatchers(POST,"/signup").permitAll()
-                .antMatchers("/users/{id}/movies").hasAnyRole("USER","ADMIN")
+                .antMatchers("/users/{id}/movies").permitAll()//.hasAnyRole("USER","ADMIN")
                 .antMatchers("/users/**").hasAnyRole("USER","ADMIN")
 
 
                 .antMatchers(GET,"/public").permitAll()
                 .antMatchers("/users/{id}/movies").hasAnyRole("USER","ADMIN")
-                .antMatchers("/movies/{id}/images").hasAnyRole("USER","ADMIN")
+                .antMatchers("/movies/{id}/images/{id}").hasAnyRole("USER","ADMIN")
                 .antMatchers("/movies/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/reviews/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/images/**").hasAnyRole("USER","ADMIN")
 
-                .antMatchers(POST,"/authenticate").permitAll()
+
                 .anyRequest().denyAll()
                 .and()
                 .csrf().disable()
+                .cors().and()
                 .formLogin().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

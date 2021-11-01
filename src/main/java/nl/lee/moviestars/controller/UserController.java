@@ -31,7 +31,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUser(username));
     }
 
-    @PostMapping(value = "/signup")
+    @PostMapping(value = "/users/signup")
     public ResponseEntity<Object> createUser(@RequestBody UserPostRequest userPostRequest) {
 
         String newUsername = userService.createUser(userPostRequest);
@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/users/{username}")
-    public ResponseEntity<Object> deleteKlant(@PathVariable("username") String username) {
+    public ResponseEntity<Object> deleteUser(@PathVariable("username") String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }

@@ -27,13 +27,6 @@ public class Review {
     @JsonBackReference(value="user-review")
     User user;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     @ManyToOne
     @JoinColumn(name="movie_id", nullable = false)
@@ -46,7 +39,6 @@ public class Review {
     }
 
     public Review(String review, double reviewRating) {
-
         this.review = review;
         this.reviewRating = reviewRating;
     }
@@ -89,14 +81,11 @@ public class Review {
         this.badLanguage = badLanguage;
     }
 
-
-/*    public User getUser() {
-        return user;
-    }
+    public User getUser() { return user; }
 
     public void setUser(User user) {
         this.user = user;
-    }*/
+    }
 
     public Movie getMovie() {
         return movie;

@@ -56,12 +56,7 @@ public class UserService {
             user.setEmail(userPostRequest.getEmail());
             user.setEnabled(true);
             user.addAuthority("ROLE_USER");
-            for (String s : userPostRequest.getAuthorities()) {
-                if (!s.startsWith("ROLE_")) {
-                    s = "ROLE_" + s;
-                }
-                user.addAuthority(s);
-            }
+
 
             User newUser = userRepository.save(user);
             return newUser.getUsername();
@@ -132,10 +127,10 @@ public class UserService {
 
     private boolean isValidPassword(String password) {
         final int MIN_LENGTH = 8;
-        final int MIN_DIGITS = 1;
-        final int MIN_LOWER = 1;
-        final int MIN_UPPER = 1;
-        final int MIN_SPECIAL = 1;
+        //final int MIN_DIGITS = 1;
+        //final int MIN_LOWER = 1;
+        //final int MIN_UPPER = 1;
+        //final int MIN_SPECIAL = 1;
         final String SPECIAL_CHARS = "@#$%&*!()+=-_";
 
         long countDigit = password.chars().filter(ch -> ch >= '0' && ch <= '9').count();
@@ -145,10 +140,10 @@ public class UserService {
 
         boolean validPassword = true;
         if (password.length() < MIN_LENGTH) validPassword = false;
-        if (countLower < MIN_LOWER) validPassword = false;
-        if (countUpper < MIN_UPPER) validPassword = false;
-        if (countDigit < MIN_DIGITS) validPassword = false;
-        if (countSpecial < MIN_SPECIAL) validPassword = false;
+        //if (countLower < MIN_LOWER) validPassword = false;
+        //if (countUpper < MIN_UPPER) validPassword = false;
+        //if (countDigit < MIN_DIGITS) validPassword = false;
+        //if (countSpecial < MIN_SPECIAL) validPassword = false;
 
         return validPassword;
     }

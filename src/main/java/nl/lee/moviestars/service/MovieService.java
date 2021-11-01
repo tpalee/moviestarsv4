@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,9 +52,9 @@ public class MovieService {
     //create a new movie
     public long createMovie(Movie movie) {
         Movie newMovie = movieRepository.save(movie);
-        Image image=imageRepository.findById(movie.getImageId()).get();
+/*        Image image=imageRepository.findById(movie.getImageId()).get();
         newMovie.setImage(image);
-        movieRepository.save(newMovie);
+        movieRepository.save(newMovie);*/
         return newMovie.getId();
     }
 
@@ -91,28 +93,7 @@ public class MovieService {
     }
 
 
-/*    public void assignImageToMovie(Long id, Long imageId) {
 
-        var optionalMovie = movieRepository.findById(id);
-
-        var optionalImage = imageRepository.findById(imageId);
-
-        if (optionalMovie.isPresent() && optionalImage.isPresent()) {
-
-            var movie = optionalMovie.get();
-
-            var image = optionalImage.get();
-
-            movie.setImage(image);
-
-            movieRepository.save(movie);
-
-
-        } else {
-
-            throw new RecordNotFoundException();
-
-        }*/
 
     //update an existing movie
     public void assignImageToMovie(Long id, Long imageId) {
@@ -125,42 +106,21 @@ public class MovieService {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-/*    //get the average rating of the movie
+    //get the average rating of the movie
     public double getAverageRating(long id) {
         Optional<Movie> movie = movieRepository.findById(id);
         if (movie.isPresent()) {
-            //list of review of the movie
             List<Review> reviews = movie.get().getReviews();
-            //rating of movie from movieDataBaseApi else 0
-            double apiRatingValue=movie.get().getMovieRating();
-            //list to add all the ratings
             List<Double> ratings=new ArrayList<>();
-            //total of ratings
             double sum=0;
-            sum+=apiRatingValue;
-            ratings.add(apiRatingValue);
-            //loop over reviewslist and add each rating to the ratingslist
             for (int i = 0; i < reviews.size(); i++) {
-                double number=(reviews.get(i).getRating());
+                double number=(reviews.get(i).getReviewRating());
                 ratings.add(number);
                 sum+=number;
             }
-            //divide sum of reviews
             return sum/ratings.size();
-
         } else {
             throw new RecordNotFoundException();
         }
-    }*/
+    }
 }

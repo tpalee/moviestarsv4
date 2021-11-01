@@ -22,8 +22,6 @@ public class User {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @Column(name="full_name")
-    private String fullName;
 
 
     @Column
@@ -78,8 +76,6 @@ public class User {
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email;}
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
     public Set<nl.lee.moviestars.model.Authority> getAuthorities() { return authorities; }
     public void setAuthorities(Set<nl.lee.moviestars.model.Authority> authorities) { this.authorities = authorities; }
 

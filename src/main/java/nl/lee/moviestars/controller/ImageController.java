@@ -44,9 +44,9 @@ public class ImageController {
     // Upload an image to db
     @PostMapping
     public ResponseEntity<Object> upLoadFile(@RequestParam("file")MultipartFile multipartFile) throws IOException {
-        Long newImageId = imageService.uploadFile(multipartFile);
+        Long newId = imageService.uploadFile(multipartFile);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(newImageId).toUri();
+                .buildAndExpand(newId).toUri();
         return ResponseEntity.created(location).build();
     }
 
@@ -59,7 +59,7 @@ public class ImageController {
 
     //delete movie
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> deleteMovie(@PathVariable("id") long id) {
+    public ResponseEntity<Object> deleteImage(@PathVariable("id") long id) {
         imageService.deleteFile(id);
         return ResponseEntity.noContent().build();
     }

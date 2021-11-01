@@ -65,7 +65,7 @@ import java.util.List;
 
 //movie to Image relation
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_id")
+    @JoinColumn(name = "id")
     @JsonManagedReference(value="movie-image")
     private Image image;
 
@@ -144,7 +144,4 @@ import java.util.List;
     public void setImage(Image image) {
         this.image = image;
     }
-
-
-
-    }
+}
