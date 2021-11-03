@@ -8,12 +8,14 @@ import nl.lee.moviestars.model.User;
 
 import nl.lee.moviestars.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.Optional;
 
 @RestController
@@ -30,11 +32,24 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    //search movies
+    //get all Movies
     @GetMapping(value = "")
+    public ResponseEntity<Collection> getMovies(){
+        return ResponseEntity.ok().body(movieService.getMovies());
+    }
+
+
+    //search for a movie by title
+    @GetMapping(value = "/search")
+    public ResponseEntity<Object> findMovieByMovieTitle(@RequestParam(name="movieTitle") String name){
+        return ResponseEntity.ok().body(movieService.searchMovie(name));
+    }
+
+
+/*    @GetMapping(value = "")
     public ResponseEntity<Object> searchMovies(@RequestParam(name="movieTitle", defaultValue="") String name){
         return ResponseEntity.ok().body(movieService.getMovies(name));
-    }
+    }*/
 
     //get movie by Id
     @GetMapping(value = "/{id}")
@@ -50,7 +65,7 @@ public class MovieController {
         long newId = movieService.createMovie(movie);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newId).toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).header("Access-Control-Expose-Headers", "Location").build();
     }
 
     //update an existing movie
@@ -74,6 +89,8 @@ public class MovieController {
         Iterable<Review> movieReviews=movieService.getReviews(id);
         return ResponseEntity.ok(movieReviews);
     }
+
+
 
 //update image in movie
     @PatchMapping(value = "/{id}/images/{imageId}")

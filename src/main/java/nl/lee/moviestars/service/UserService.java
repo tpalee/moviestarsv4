@@ -47,24 +47,28 @@ public class UserService {
     }
 
     public String createUser(UserPostRequest userPostRequest) {
-        try {
-            String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
-
-            User user = new User();
-            user.setUsername(userPostRequest.getUsername());
-            user.setPassword(encryptedPassword);
-            user.setEmail(userPostRequest.getEmail());
-            user.setEnabled(true);
-            user.addAuthority("ROLE_USER");
-
-
-            User newUser = userRepository.save(user);
-            return newUser.getUsername();
+        if(userRepository.existsById(userPostRequest.getUsername())){
+            System.out.println("ja bestaat");
+            throw new UserAlreadyExistsException();
         }
-        catch (Exception ex) {
-            throw new BadRequestException("Cannot create user.");
-        }
+        else {
+            try {
+                String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
 
+                User user = new User();
+                user.setUsername(userPostRequest.getUsername());
+                user.setPassword(encryptedPassword);
+                user.setEmail(userPostRequest.getEmail());
+                user.setEnabled(true);
+                user.addAuthority("ROLE_USER");
+
+
+                User newUser = userRepository.save(user);
+                return newUser.getUsername();
+            } catch (Exception ex) {
+                throw new BadRequestException("Cannot create user.");
+            }
+        }
     }
 
     public void deleteUser(String username) {

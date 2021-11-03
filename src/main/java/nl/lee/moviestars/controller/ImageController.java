@@ -47,7 +47,7 @@ public class ImageController {
         Long newId = imageService.uploadFile(multipartFile);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newId).toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).header("Access-Control-Expose-Headers", "Location").build();
     }
 
     //replace an existing image

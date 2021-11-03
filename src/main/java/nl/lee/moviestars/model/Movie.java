@@ -27,9 +27,9 @@ import java.util.List;
         private String movieDescription;
 
         @Column(name = "movie_rating")
-        private double movieRating= 1.0;
+        private Double movieRating= 0.0;
 
-        @Transient
+ /*       @Transient
        private Long imageId;
 
     public Long getImageId() {
@@ -38,7 +38,7 @@ import java.util.List;
 
     public void setImageId(Long imageId) {
         this.imageId = imageId;
-    }
+    }*/
 
     public User getUser() {
         return user;
@@ -50,7 +50,7 @@ import java.util.List;
 
     //Movies to User relation
         @ManyToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "username", nullable = false)
+        @JoinColumn(name = "username", nullable=false)
         @JsonBackReference(value="user-movie")
         private User user;
 

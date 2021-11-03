@@ -13,13 +13,6 @@ public class ReviewService {
 
     private ReviewRepository reviewRepository;
 
-    //constructor
-    @Autowired
-    public ReviewService(ReviewRepository reviewRepository){
-        this.reviewRepository=reviewRepository;
-    }
-
-
 
     //get all the reviews
     public Iterable<Review> getReviews() {
