@@ -41,6 +41,8 @@ public class ImageController {
         return ResponseEntity.ok().body(imageService.getFileById(id));
     }
 
+
+
     // Upload an image to db
     @PostMapping
     public ResponseEntity<Object> upLoadFile(@RequestParam("file")MultipartFile multipartFile) throws IOException {

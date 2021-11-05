@@ -80,13 +80,14 @@ public class MovieService {
     }
 
     //update an existing movie
-    public void updateMovie(Long id, Movie newMovie) {
+    public long updateMovie(Long id, Movie newMovie) {
         if (!movieRepository.existsById(id)) throw new RecordNotFoundException();
         Movie movie = movieRepository.findById(id).get();
         movie.setMovieTitle(newMovie.getMovieTitle());
         movie.setMovieGenre(newMovie.getMovieGenre());
         movie.setMovieDescription(newMovie.getMovieDescription());
         movieRepository.save(movie);
+        return movie.getId();
     }
 
     //delete a movie by id
