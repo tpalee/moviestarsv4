@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collection;
 
 @RestController
 public class ReviewController {
@@ -23,9 +24,11 @@ public class ReviewController {
 
     //get all reviews
     @GetMapping(value = "/reviews")
-    public ResponseEntity<Object> getReviews() {
+    public ResponseEntity<Collection> getReviews() {
         return ResponseEntity.ok().body(reviewService.getReviews());
     }
+
+
 
 
     //find review by id
@@ -51,6 +54,14 @@ public class ReviewController {
     public ResponseEntity updateReview(@PathVariable long id, @RequestBody Review review) {
         reviewService.updateReview(id,review);
         return ResponseEntity.ok("Review is aangepast");
+    }
+
+
+    //setBadLanguage
+    @PatchMapping(value = "/reviews/{id}/badlanguage")
+    public ResponseEntity updateBadLanguage(@PathVariable long id) {
+        reviewService.updateBadlanguage(id);
+        return ResponseEntity.ok("Badlanguage aangepast");
     }
 
 

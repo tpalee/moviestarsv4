@@ -88,6 +88,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST,"/movies/**").hasAnyRole("USER","ADMIN")
                 .antMatchers(PUT,"/movies/**").hasAnyRole("USER","ADMIN")
                 .antMatchers(PATCH,"/movies/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(GET,"/reviews/**").permitAll()
+                .antMatchers(PATCH,"/reviews/{id}/badlanguage").permitAll()
                 .antMatchers("/reviews/**").hasAnyRole("USER","ADMIN")
                 .antMatchers(GET,"/images/**").permitAll()
                 .antMatchers("/images/**").hasAnyRole("USER","ADMIN")

@@ -23,13 +23,21 @@ import java.util.List;
         @Column(name = "movie_genre")
         private String movieGenre;
 
-        @Column(name = "movie_description")
+        @Column(name = "movie_description", length = 1024)
         private String movieDescription;
 
         @Column(name = "movie_rating")
         private Double movieRating= 0.0;
 
- /*       @Transient
+        @Column(name="movie_poster")
+        private String moviePoster;
+
+
+
+    public void setMoviePoster(String moviePoster) {
+        this.moviePoster = moviePoster;
+    }
+/*       @Transient
        private Long imageId;
 
     public Long getImageId() {
@@ -58,7 +66,7 @@ import java.util.List;
 
     //Movie to Review relation
         @OneToMany(mappedBy = "movie",
-        fetch = FetchType.LAZY,
+        fetch = FetchType.EAGER,
          cascade = CascadeType.ALL)
         @JsonManagedReference(value="movie-review")
         List<Review> reviews=new ArrayList<>();
@@ -143,5 +151,13 @@ import java.util.List;
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public void setMovieRating(Double movieRating) {
+        this.movieRating = movieRating;
+    }
+
+    public String getMoviePoster() {
+        return moviePoster;
     }
 }

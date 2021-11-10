@@ -6,16 +6,18 @@ import nl.lee.moviestars.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
 public class ReviewService {
 
+    @Autowired
     private ReviewRepository reviewRepository;
 
 
     //get all the reviews
-    public Iterable<Review> getReviews() {
+    public Collection<Review> getReviews() {
         return reviewRepository.findAll();
     }
 
@@ -43,6 +45,15 @@ public class ReviewService {
         Review review = reviewRepository.findById(id).get();
         review.setReview(newReview.getReview());
         review.setReviewRating(newReview.getReviewRating());
+        reviewRepository.save(review);
+    }
+
+
+    public void updateBadlanguage(long id) {
+        if (!reviewRepository.existsById(id)) throw new RecordNotFoundException();
+        Review review = reviewRepository.findById(id).get();
+        boolean badLanguage=review.isBadLanguage();
+        review.setBadLanguage(!badLanguage);
         reviewRepository.save(review);
     }
 

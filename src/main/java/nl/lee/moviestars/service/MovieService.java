@@ -108,7 +108,7 @@ public class MovieService {
     }
 
 
-    //update an existing movie
+    //assig image to movie
     public void assignImageToMovie(Long id, Long imageId) {
         if ((!movieRepository.existsById(id)) || (!imageRepository.existsById(imageId)))
             throw new RecordNotFoundException();
@@ -134,7 +134,7 @@ public class MovieService {
                 ratings.add(number);
                 sum += number;
             }
-            return sum / ratings.size();
+            return Math.round((sum / ratings.size())*100.0)/100.0;
         } else {
             throw new RecordNotFoundException();
         }

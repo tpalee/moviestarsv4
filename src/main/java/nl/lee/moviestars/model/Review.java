@@ -16,15 +16,20 @@ public class Review {
     private String review;
 
     @Column(name = "review_rating",nullable = false)
-    private double reviewRating;
+    private Double reviewRating;
 
     @Column(name = "bad_language")
     private boolean badLanguage=false;
 
+    @Column(name="reviewer")
+    private String reviewer;
 
-   @ManyToOne
-    @JoinColumn(name="username")
-    @JsonBackReference(value="user-review")
+
+
+    @ManyToOne
+  // @MapsId("username")
+    @JoinColumn(name="username", nullable = false)
+   @JsonBackReference(value="user-review")
     User user;
 
 
@@ -94,4 +99,8 @@ public class Review {
     public void setMovie(Movie movie) {
         this.movie = movie;
     }
+
+    public String getReviewer() { return reviewer; }
+
+    public void setReviewer(String reviewer) { this.reviewer = reviewer; }
 }
