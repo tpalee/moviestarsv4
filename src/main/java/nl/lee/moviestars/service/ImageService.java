@@ -29,12 +29,24 @@ public class ImageService {
         imageRepository.save(image);
         return image.getId();
     }
-
+/*
     public Optional<Image> getFileById(Long id){
         if (!imageRepository.existsById(id)) throw new RecordNotFoundException();
         return imageRepository.findById(id);
-    }
+    }*/
 
+
+    public Image getFileById(Long id) {
+        var optionalImage = imageRepository.findById(id);
+        if (optionalImage.isPresent()) {
+            return optionalImage.get();
+
+        } else {
+
+            throw new RecordNotFoundException("Picture does not exist");
+
+        }
+    }
     public Collection<Image> getAllFiles(){
         return imageRepository.findAll();
     }

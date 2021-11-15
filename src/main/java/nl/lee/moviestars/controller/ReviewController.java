@@ -12,6 +12,7 @@ import java.net.URI;
 import java.util.Collection;
 
 @RestController
+@CrossOrigin(origins="*")
 public class ReviewController {
 
     @Autowired
@@ -28,7 +29,10 @@ public class ReviewController {
         return ResponseEntity.ok().body(reviewService.getReviews());
     }
 
-
+    @GetMapping(value = "/reviews/badlanguage")
+    public ResponseEntity<Collection> getReviewsHarmfullContent() {
+        return ResponseEntity.ok().body(reviewService.getReviewsHarmfullContent());
+    }
 
 
     //find review by id
@@ -47,7 +51,7 @@ public class ReviewController {
                 .buildAndExpand(newId).toUri();
         return ResponseEntity.created(location).build();
     }
-
+//.header("Access-Control-Allow-Origin","*")
 
     //update a review
     @PutMapping(value = "/reviews/{id}")

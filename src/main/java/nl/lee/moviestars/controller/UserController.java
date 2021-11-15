@@ -3,6 +3,7 @@ package nl.lee.moviestars.controller;
 import nl.lee.moviestars.dto.request.UserPostRequest;
 import nl.lee.moviestars.exceptions.BadRequestException;
 import nl.lee.moviestars.model.Movie;
+import nl.lee.moviestars.model.Review;
 import nl.lee.moviestars.model.User;
 import nl.lee.moviestars.service.UserService;
 
@@ -16,6 +17,7 @@ import java.net.URI;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -89,6 +91,13 @@ public class UserController {
     public ResponseEntity getMovies(@PathVariable("id") String id) {
         Iterable<Movie> movies=userService.getMovies(id);
         return ResponseEntity.ok(movies);
+    }
+
+
+    @GetMapping(value = "users/{id}/reviews")
+    public ResponseEntity getReviews(@PathVariable("id") String id) {
+        Iterable<Review> reviews=userService.getReviews(id);
+        return ResponseEntity.ok(reviews);
     }
 
 

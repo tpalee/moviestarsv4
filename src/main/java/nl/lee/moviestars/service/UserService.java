@@ -4,6 +4,7 @@ import nl.lee.moviestars.dto.request.UserPostRequest;
 import nl.lee.moviestars.exceptions.*;
 import nl.lee.moviestars.model.Authority;
 import nl.lee.moviestars.model.Movie;
+import nl.lee.moviestars.model.Review;
 import nl.lee.moviestars.model.User;
 import nl.lee.moviestars.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -183,5 +184,16 @@ public class UserService {
             throw new RecordNotFoundException();
         }
     }
+
+
+    public Iterable<Review> getReviews(String id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return user.get().getReviews();
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+
 
 }

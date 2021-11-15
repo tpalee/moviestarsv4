@@ -6,6 +6,7 @@ import nl.lee.moviestars.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -19,6 +20,10 @@ public class ReviewService {
     //get all the reviews
     public Collection<Review> getReviews() {
         return reviewRepository.findAll();
+    }
+
+    public Collection<Review> getReviewsHarmfullContent() {
+       return reviewRepository.findReviewByBadLanguage(true);
     }
 
 

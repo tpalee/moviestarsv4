@@ -1,6 +1,7 @@
 package nl.lee.moviestars.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -23,6 +24,7 @@ public class Image {
 
     @Column(name = "file")
     @Lob
+    @Type(type = "org.hibernate.type.ImageType")
     private byte[] file;
 
     public Image() {

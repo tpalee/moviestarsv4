@@ -58,7 +58,7 @@ import java.util.List;
 
     //Movies to User relation
         @ManyToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "username", nullable=false)
+        @JoinColumn(name = "username")
         @JsonBackReference(value="user-movie")
         private User user;
 
@@ -66,7 +66,7 @@ import java.util.List;
 
     //Movie to Review relation
         @OneToMany(mappedBy = "movie",
-        fetch = FetchType.EAGER,
+        fetch = FetchType.LAZY,
          cascade = CascadeType.ALL)
         @JsonManagedReference(value="movie-review")
         List<Review> reviews=new ArrayList<>();

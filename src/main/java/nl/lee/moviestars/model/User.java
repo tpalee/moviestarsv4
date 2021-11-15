@@ -48,11 +48,11 @@ public class User {
 
     @OneToMany(
             mappedBy = "user",
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL
     )
     @JsonManagedReference(value="user-movie")
-    //@JsonIgnore
+    @JsonIgnore
     private List<Movie> movies=new ArrayList<>();
 
 

@@ -3,6 +3,7 @@ package nl.lee.moviestars.controller;
 import nl.lee.moviestars.model.Image;
 import nl.lee.moviestars.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,9 +37,20 @@ public class ImageController {
     }
 
     // find Image by Id from db
-    @GetMapping(value = "/{id}")
+/*    @GetMapping(value = "/{id}")
     public ResponseEntity getFileById(@PathVariable("id") Long id){
         return ResponseEntity.ok().body(imageService.getFileById(id));
+    }*/
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<byte[]> getPicture(@PathVariable("id") Long id) {
+        Image image = imageService.getFileById(id);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename =\"" + image.getFileName() + "\"")
+                .body(image.getFile());
     }
 
     // Upload an image to db

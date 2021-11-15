@@ -45,6 +45,8 @@ public class MovieService {
     }
 
 
+
+
     //find a movie by id
     public Optional<Movie> getMovieById(long id) {
         if (!movieRepository.existsById(id)) throw new RecordNotFoundException();
