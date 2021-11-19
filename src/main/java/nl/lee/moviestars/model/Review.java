@@ -12,7 +12,7 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "review", nullable = false)
+    @Column(name = "review", nullable = false, length = 2024)
     private String review;
 
     @Column(name = "review_rating",nullable = false)
@@ -27,7 +27,6 @@ public class Review {
 
 
     @ManyToOne
-  // @MapsId("username")
     @JoinColumn(name="username", nullable = false)
    @JsonBackReference(value="user-review")
     User user;

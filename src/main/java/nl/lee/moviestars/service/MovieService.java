@@ -130,9 +130,9 @@ public class MovieService {
                 return 0.0;
             }
             List<Double> ratings = new ArrayList<>();
-            double sum = 0;
+            Double sum = 0.0;
             for (int i = 0; i < reviews.size(); i++) {
-                double number = (reviews.get(i).getReviewRating());
+                Double number = (reviews.get(i).getReviewRating());
                 ratings.add(number);
                 sum += number;
             }

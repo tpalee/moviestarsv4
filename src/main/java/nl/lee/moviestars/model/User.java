@@ -57,7 +57,8 @@ public class User {
 
 
     //User to Reviews relation
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL)
     @JsonManagedReference(value="user-review")
     //@JsonIgnore
     List<Review> reviews=new ArrayList<>();

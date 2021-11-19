@@ -136,11 +136,11 @@ import java.util.List;
             this.movieDescription = movieDescription;
         }
 
-        public double getMovieRating() {
+        public Double getMovieRating() {
             return movieRating;
         }
 
-        public void setMovieRating(double movieRating) {
+        public void setMovieRating(Double movieRating) {
             this.movieRating = movieRating;
         }
 
@@ -153,9 +153,6 @@ import java.util.List;
         this.image = image;
     }
 
-    public void setMovieRating(Double movieRating) {
-        this.movieRating = movieRating;
-    }
 
     public String getMoviePoster() {
         return moviePoster;
