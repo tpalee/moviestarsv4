@@ -57,7 +57,7 @@ import java.util.List;
     }
 
     //Movies to User relation
-        @ManyToOne(fetch = FetchType.EAGER)
+        @ManyToOne(fetch = FetchType.LAZY)//EAGER!!!!!!!
         @JoinColumn(name = "username")
         @JsonBackReference(value="user-movie")
         private User user;

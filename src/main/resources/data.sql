@@ -7,10 +7,8 @@ VALUES
 INSERT INTO authorities (username, authority)
 VALUES
 ('user', 'ROLE_USER'),
-('admin', 'ROLE_USER'),
 ('admin', 'ROLE_ADMIN'),
-('thieu', 'ROLE_USER'),
-('thieu', 'ROLE_ADMIN');
+('thieu', 'ROLE_USER');
 
 
 

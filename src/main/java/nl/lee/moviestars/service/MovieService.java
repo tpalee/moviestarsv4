@@ -10,6 +10,7 @@ import nl.lee.moviestars.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -93,10 +94,21 @@ public class MovieService {
     }
 
     //delete a movie by id
-    public void deleteMovie(long id) {
+/*    public void deleteMovie(long id) {
         if (!movieRepository.existsById(id)) throw new RecordNotFoundException();
         movieRepository.deleteById(id);
+    }*/
+
+    //delete a movie by id
+    @Transactional
+    public void deleteMovie(long id) {
+        if (!movieRepository.existsById(id)) throw new RecordNotFoundException();
+//        movieRepository.deleteById(id);
+        movieRepository.deleteReviewsForMovie(id);
+        movieRepository.deleteMovieById(id);
     }
+
+
 
 
     //Get all the reviews of the movie_Id
