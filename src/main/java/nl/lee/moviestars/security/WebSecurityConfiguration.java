@@ -66,33 +66,26 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                //.antMatchers("/**").permitAll()//DEBUG
                 .antMatchers(POST,"/authenticate").permitAll()
-
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers(POST,"/users/signup").permitAll()
                 .antMatchers(GET,"/users/{username}").hasAnyRole("USER","ADMIN")
                 .antMatchers(DELETE,"/users/{username}").hasRole("ADMIN")
                 .antMatchers(PATCH,"/users/{^[\\w]$}/password").authenticated()
-                .antMatchers("/users/{id}/movies").permitAll()//.hasAnyRole("USER","ADMIN")
                 .antMatchers("/users/**").hasAnyRole("USER","ADMIN")
-
                 .antMatchers(GET,"/movies/{id}/image/**").permitAll()
                 .antMatchers(GET,"/movies/{id}/rating").permitAll()
                 .antMatchers(GET,"/movies/search").permitAll()
                 .antMatchers(GET,"/movies").permitAll()
-
                 .antMatchers(GET,"/public").permitAll()
                 .antMatchers("/users/{id}/movies").hasAnyRole("USER","ADMIN")
-
                 .antMatchers(GET,"/movies/**").permitAll()
                 .antMatchers(DELETE,"/movies/{id}").hasRole("ADMIN")
                 .antMatchers(POST,"/movies/**").hasAnyRole("USER","ADMIN")
                 .antMatchers(PUT,"/movies/**").hasAnyRole("USER","ADMIN")
                 .antMatchers(PATCH,"/movies/**").hasAnyRole("USER","ADMIN")
-
                 .antMatchers(POST,"/reviews").hasAnyRole("USER","ADMIN")
-                .antMatchers(GET,"/reviews/badlanguage").hasRole("ADMIN")
+                .antMatchers(GET,"/reviews/badlanguage").permitAll()
                 .antMatchers(GET,"/reviews/**").permitAll()
                 .antMatchers(PATCH,"/reviews/{id}/badlanguage").permitAll()
                 .antMatchers("/reviews/**").hasAnyRole("USER","ADMIN")

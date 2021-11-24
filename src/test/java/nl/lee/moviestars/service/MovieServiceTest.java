@@ -8,7 +8,6 @@ import nl.lee.moviestars.model.User;
 import nl.lee.moviestars.repository.ImageRepository;
 import nl.lee.moviestars.repository.MovieRepository;
 import nl.lee.moviestars.repository.ReviewRepository;
-import nl.lee.moviestars.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,17 +16,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.junit.jupiter.api.Test;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 
 import static com.fasterxml.jackson.databind.type.LogicalType.Collection;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class MovieServiceTest {
@@ -52,6 +48,57 @@ class MovieServiceTest {
     public void setUp() {
 
     }
+
+
+    @Test
+    void createMovieTest() {
+        Movie movie = new Movie("title", "Action");
+        movie.setId(100);
+
+        Mockito
+                .when(movieRepository.save(movie))
+                .thenReturn(movie);
+
+        assertEquals(100, movieService.createMovie(movie));
+        Mockito.verify(movieRepository, times(1)).save(movie);
+    }
+
+
+    @Test
+    public void testGetMoviesWhenThereAreMovies(){
+        List<Movie> movies=new ArrayList<>();
+        Movie movie1=new Movie("movie1","action");
+        movie1.setId(1L);
+        movie1.setMovieRating(8.0);
+        movies.add(movie1);
+
+
+        Mockito
+                .when(movieRepository.findAll())
+                .thenReturn(movies);
+
+
+
+
+    }
+
+
+
+
+
+
+
+    @Test
+    public void testGetAverageWhenMovieNotFoundThrowsExeption() {
+        Mockito
+                .when(movieRepository.findById(3L))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThrows(RecordNotFoundException.class, () -> {
+            movieService.getAverageRating(3L);
+        }, "RecordNotFoundException error was expected");
+    }
+
 
     @Test
     public void testGetAverageWhenthereAreNoReviews() {
@@ -82,78 +129,15 @@ class MovieServiceTest {
         Mockito
                 .when(movieRepository.findById(1L))
                 .thenReturn(Optional.of(movie1));
+
+
         double expected = movieService.getAverageRating(1L);
         assertEquals(8.0, expected);
     }
 
-    @Test
-    public void testGetAverageWhenMovieNotFoundThrowsExeption() {
-        Mockito
-                .when(movieRepository.findById(3L))
-                .thenReturn(Optional.empty());
-
-        Assertions.assertThrows(RecordNotFoundException.class, () -> {
-            movieService.getAverageRating(3L);
-        }, "RecordNotFoundException error was expected");
-    }
-
-    @Test
-    void createMovie() {
-        Movie movie = new Movie("title", "Action");
-        movie.setId(100);
-
-        Mockito
-                .when(movieRepository.save(movie))
-                .thenReturn(movie);
-
-        assertEquals(100, movieService.createMovie(movie));
-        Mockito.verify(movieRepository, Mockito.times(1)).save(movie);
-    }
-
-/*    @Test
-    void upDateMovie() {
-        Movie movie = new Movie("title", "Action");
-        movie.setId(100);
-        Movie movie2 = new Movie("title2", "Action");
-
-
-
-        Mockito
-                .when(movieRepository.save(movie))
-                .thenReturn(movie);
-
-        Mockito
-                .when(movieRepository.save(movie))
-                .thenReturn(movie);
-
-
-      *//*  String newTitle=movieService.getMovieById(100).get().getMovieTitle();
-        String expected="title2";*//*
 
 
 
 
-        assertEquals(100L, movieService.updateMovie(100L,movie2));
-        Mockito.verify(movieRepository, Mockito.times(1)).save(movie);
-    }*/
-
-/*       @Test
-    void whenGivenId_shouldDeleteUser_ifFound() {
-        Movie movie = new Movie("title", "Action");
-        movie.setId(100);
-
-
-        Mockito
-                .when(movieRepository.findById(100L))
-                .thenReturn(Optional.of(movie));
-movieService.deleteMovie(100L);
-
-
-
-           Assertions.assertThrows(RecordNotFoundException.class, () -> {
-               movieService.getMovieById(100L);
-           }, "RecordNotFoundException error was expected");
-
-
-}*/
 }
+

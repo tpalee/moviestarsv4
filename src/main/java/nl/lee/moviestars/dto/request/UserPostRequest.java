@@ -1,5 +1,4 @@
 package nl.lee.moviestars.dto.request;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

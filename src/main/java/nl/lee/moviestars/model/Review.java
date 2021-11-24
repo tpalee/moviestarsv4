@@ -15,28 +15,26 @@ public class Review {
     @Column(name = "review", nullable = false, length = 2024)
     private String review;
 
-    @Column(name = "review_rating",nullable = false)
+    @Column(name = "review_rating", nullable = false)
     private Double reviewRating;
 
     @Column(name = "bad_language")
-    private boolean badLanguage=false;
+    private boolean badLanguage = false;
 
-    @Column(name="reviewer")
+    @Column(name = "reviewer")
     private String reviewer;
 
 
-
     @ManyToOne
-    @JoinColumn(name="username", nullable = false)
-   @JsonBackReference(value="user-review")
+    @JoinColumn(name = "username", nullable = false)
+    @JsonBackReference(value = "user-review")
     User user;
 
 
     @ManyToOne
-    @JoinColumn(name="movie_id", nullable = false)
-    @JsonBackReference(value="movie-review")
+    @JoinColumn(name = "movie_id", nullable = false)
+    @JsonBackReference(value = "movie-review")
     Movie movie;
-
 
 
     public Review() {
@@ -47,10 +45,6 @@ public class Review {
         this.reviewRating = reviewRating;
     }
 
-
-    //////////////////////
-    //GETTERS AN SETTERS//
-    //////////////////////
 
 
     public long getId() {
@@ -85,7 +79,9 @@ public class Review {
         this.badLanguage = badLanguage;
     }
 
-    public User getUser() { return user; }
+    public User getUser() {
+        return user;
+    }
 
     public void setUser(User user) {
         this.user = user;
@@ -99,7 +95,12 @@ public class Review {
         this.movie = movie;
     }
 
-    public String getReviewer() { return reviewer; }
+    public String getReviewer() {
+        return reviewer;
+    }
 
-    public void setReviewer(String reviewer) { this.reviewer = reviewer; }
+    public void setReviewer(String reviewer) {
+        this.reviewer = reviewer;
+    }
+
 }

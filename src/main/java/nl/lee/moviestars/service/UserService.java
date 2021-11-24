@@ -8,9 +8,6 @@ import nl.lee.moviestars.model.Review;
 import nl.lee.moviestars.model.User;
 import nl.lee.moviestars.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +15,14 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
+
 @Service
 public class UserService {
 
+
     private UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -30,40 +30,29 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    private String getCurrentUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ((UserDetails) authentication.getPrincipal()).getUsername();
-    }
 
     public Collection<User> getUsers() {
         return userRepository.findAll();
     }
 
+
     public Optional<User> getUser(String username) {
         return userRepository.findById(username);
     }
 
-    public boolean userExists(String username) {
-        return userRepository.existsById(username);
-    }
 
     public String createUser(UserPostRequest userPostRequest) {
-        if(userRepository.existsById(userPostRequest.getUsername())){
-            System.out.println("ja bestaat");
+        if (userRepository.existsById(userPostRequest.getUsername())) {
             throw new UserAlreadyExistsException();
-        }
-        else {
+        } else {
             try {
                 String encryptedPassword = passwordEncoder.encode(userPostRequest.getPassword());
-
                 User user = new User();
                 user.setUsername(userPostRequest.getUsername());
                 user.setPassword(encryptedPassword);
                 user.setEmail(userPostRequest.getEmail());
                 user.setEnabled(true);
                 user.addAuthority("ROLE_USER");
-
-
                 User newUser = userRepository.save(user);
                 return newUser.getUsername();
             } catch (Exception ex) {
@@ -72,21 +61,21 @@ public class UserService {
         }
     }
 
+
     public void deleteUser(String username) {
         if (userRepository.existsById(username)) {
             userRepository.deleteById(username);
-        }
-        else {
+        } else {
             throw new UserNotFoundException(username);
         }
     }
+
 
     public void updateUser(String username, User newUser) {
         Optional<User> userOptional = userRepository.findById(username);
         if (userOptional.isEmpty()) {
             throw new UserNotFoundException(username);
-        }
-        else {
+        } else {
             User user = userOptional.get();
             user.setPassword(passwordEncoder.encode(newUser.getPassword()));
             user.setEmail(newUser.getEmail());
@@ -99,8 +88,7 @@ public class UserService {
         Optional<User> userOptional = userRepository.findById(username);
         if (userOptional.isEmpty()) {
             throw new UserNotFoundException(username);
-        }
-        else {
+        } else {
             User user = userOptional.get();
             return user.getAuthorities();
         }
@@ -110,8 +98,7 @@ public class UserService {
         Optional<User> userOptional = userRepository.findById(username);
         if (userOptional.isEmpty()) {
             throw new UserNotFoundException(username);
-        }
-        else {
+        } else {
             User user = userOptional.get();
             user.addAuthority(authorityString);
             userRepository.save(user);
@@ -122,8 +109,7 @@ public class UserService {
         Optional<User> userOptional = userRepository.findById(username);
         if (userOptional.isEmpty()) {
             throw new UserNotFoundException(username);
-        }
-        else {
+        } else {
             User user = userOptional.get();
             user.removeAuthority(authorityString);
             userRepository.save(user);
@@ -132,10 +118,6 @@ public class UserService {
 
     private boolean isValidPassword(String password) {
         final int MIN_LENGTH = 8;
-        //final int MIN_DIGITS = 1;
-        //final int MIN_LOWER = 1;
-        //final int MIN_UPPER = 1;
-        //final int MIN_SPECIAL = 1;
         final String SPECIAL_CHARS = "@#$%&*!()+=-_";
 
         long countDigit = password.chars().filter(ch -> ch >= '0' && ch <= '9').count();
@@ -145,15 +127,11 @@ public class UserService {
 
         boolean validPassword = true;
         if (password.length() < MIN_LENGTH) validPassword = false;
-        //if (countLower < MIN_LOWER) validPassword = false;
-        //if (countUpper < MIN_UPPER) validPassword = false;
-        //if (countDigit < MIN_DIGITS) validPassword = false;
-        //if (countSpecial < MIN_SPECIAL) validPassword = false;
 
         return validPassword;
     }
 
-    public void setPassword(String username, String password) {
+ /*   public void setPassword(String username, String password) {
         if (username.equals(getCurrentUserName())) {
             if (isValidPassword(password)) {
                 Optional<User> userOptional = userRepository.findById(username);
@@ -173,7 +151,7 @@ public class UserService {
         else {
             throw new NotAuthorizedException();
         }
-    }
+    }*/
 
     //get all movies of a user
     public Iterable<Movie> getMovies(String id) {

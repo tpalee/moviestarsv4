@@ -1,5 +1,4 @@
 package nl.lee.moviestars.service;
-
 import nl.lee.moviestars.exceptions.MovieAlreadyExistsException;
 import nl.lee.moviestars.exceptions.RecordNotFoundException;
 import nl.lee.moviestars.model.Image;
@@ -9,7 +8,6 @@ import nl.lee.moviestars.repository.ImageRepository;
 import nl.lee.moviestars.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,15 +23,6 @@ public class MovieService {
     private ImageRepository imageRepository;
 
 
-    //constructor
-
- /*   public MovieService(MovieRepository movieRepository, ImageRepository imageRepository) {
-        this.movieRepository = movieRepository;
-        this.imageRepository = imageRepository;
-    }*/
-
-
-    //getAllMovies
     public Collection<Movie> getMovies() {
         List<Movie> movies = movieRepository.findAll();
         if (movies.isEmpty()) throw new RecordNotFoundException();
@@ -46,9 +35,6 @@ public class MovieService {
     }
 
 
-
-
-    //find a movie by id
     public Optional<Movie> getMovieById(long id) {
         if (!movieRepository.existsById(id)) throw new RecordNotFoundException();
         Movie movie = movieRepository.findById(id).get();
@@ -56,7 +42,7 @@ public class MovieService {
         return movieRepository.findById(id);
     }
 
-    //search movies
+
     public Collection<Movie> searchMovie(String movieTitle) {
         List<Movie> movies = movieRepository.findAll();
         if (movies.isEmpty()) throw new RecordNotFoundException();
@@ -69,20 +55,16 @@ public class MovieService {
     }
 
 
-    //create a new movie
     public long createMovie(Movie movie) {
         if (movieRepository.findMovieByMovieTitle(movie.getMovieTitle()).isPresent()) {
             throw new MovieAlreadyExistsException();
         } else {
             Movie newMovie = movieRepository.save(movie);
-/*        Image image=imageRepository.findById(movie.getImageId()).get();
-        newMovie.setImage(image);
-        movieRepository.save(newMovie);*/
             return newMovie.getId();
         }
     }
 
-    //update an existing movie
+
     public long updateMovie(Long id, Movie newMovie) {
         if (!movieRepository.existsById(id)) throw new RecordNotFoundException();
         Movie movie = movieRepository.findById(id).get();
@@ -93,25 +75,18 @@ public class MovieService {
         return movie.getId();
     }
 
-    //delete a movie by id
-/*    public void deleteMovie(long id) {
-        if (!movieRepository.existsById(id)) throw new RecordNotFoundException();
-        movieRepository.deleteById(id);
-    }*/
 
-    //delete a movie by id
+    /* The standard 'movieRepository.deleteById(id)' doesn't work properly;
+    No errors are shown in the console, but the deletion of the movie fails
+    A workaround is created in the movieRepository*/
     @Transactional
     public void deleteMovie(long id) {
         if (!movieRepository.existsById(id)) throw new RecordNotFoundException();
-//        movieRepository.deleteById(id);
         movieRepository.deleteReviewsForMovie(id);
         movieRepository.deleteMovieById(id);
     }
 
 
-
-
-    //Get all the reviews of the movie_Id
     public Iterable<Review> getReviews(long id) {
         Optional<Movie> movie = movieRepository.findById(id);
         if (movie.isPresent()) {
@@ -122,7 +97,6 @@ public class MovieService {
     }
 
 
-    //assig image to movie
     public void assignImageToMovie(Long id, Long imageId) {
         if ((!movieRepository.existsById(id)) || (!imageRepository.existsById(imageId)))
             throw new RecordNotFoundException();
@@ -133,7 +107,6 @@ public class MovieService {
     }
 
 
-    //get the average rating of the movie
     public double getAverageRating(long id) {
         Optional<Movie> movie = movieRepository.findById(id);
         if (movie.isPresent()) {
@@ -148,7 +121,7 @@ public class MovieService {
                 ratings.add(number);
                 sum += number;
             }
-            return Math.round((sum / ratings.size())*100.0)/100.0;
+            return Math.round((sum / ratings.size()) * 100.0) / 100.0;
         } else {
             throw new RecordNotFoundException();
         }

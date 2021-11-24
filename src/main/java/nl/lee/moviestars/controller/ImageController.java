@@ -18,58 +18,42 @@ import java.util.Collection;
 @CrossOrigin
 
 
-
-
 public class ImageController {
 
-    //connect Service to Controller
     @Autowired
     private ImageService imageService;
+
 
     public ImageController(ImageService imageService) {
         this.imageService = imageService;
     }
 
-    // get all Images from db
-    @GetMapping
-    public ResponseEntity<Collection<Image>> getAllFiles(){
-            return ResponseEntity.ok().body(imageService.getAllFiles());
-    }
 
-    // find Image by Id from db
-/*    @GetMapping(value = "/{id}")
-    public ResponseEntity getFileById(@PathVariable("id") Long id){
-        return ResponseEntity.ok().body(imageService.getFileById(id));
-    }*/
+    @GetMapping
+    public ResponseEntity<Collection<Image>> getAllImages() {
+        return ResponseEntity.ok().body(imageService.getAllFiles());
+    }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<byte[]> getPicture(@PathVariable("id") Long id) {
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) {
         Image image = imageService.getFileById(id);
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename =\"" + image.getFileName() + "\"")
                 .body(image.getFile());
     }
 
-    // Upload an image to db
+
     @PostMapping
-    public ResponseEntity<Object> upLoadFile(@RequestParam("file")MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<Object> upLoadFile(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         Long newId = imageService.uploadFile(multipartFile);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newId).toUri();
         return ResponseEntity.created(location).header("Access-Control-Expose-Headers", "Location").build();
     }
 
-    //replace an existing image
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Object> updateFile(@PathVariable("id") long id, @RequestParam("file")MultipartFile newMultipartFile) throws IOException {
-        imageService.updateFile(id, newMultipartFile);
-        return ResponseEntity.noContent().build();
-    }
 
-    //delete movie
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteImage(@PathVariable("id") long id) {
         imageService.deleteFile(id);

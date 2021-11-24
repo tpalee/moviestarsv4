@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-//@RequestMapping("/api/auth")
 public class AuthenticationController {
 
     UserAuthenticateService userAuthenticateService;
@@ -21,9 +20,7 @@ public class AuthenticationController {
 
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) {
-
         AuthenticationResponse authenticationResponse = userAuthenticateService.authenticateUser(authenticationRequest);
-
         return ResponseEntity.ok(authenticationResponse);
     }
 

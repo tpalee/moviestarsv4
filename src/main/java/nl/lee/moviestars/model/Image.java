@@ -1,15 +1,11 @@
 package nl.lee.moviestars.model;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "images")
 public class Image {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
