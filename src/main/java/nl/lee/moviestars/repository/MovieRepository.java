@@ -1,4 +1,5 @@
 package nl.lee.moviestars.repository;
+
 import nl.lee.moviestars.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,6 +13,7 @@ import java.util.Optional;
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     public Collection<Movie> findAllByMovieTitle(String movieTitle);
+
     public Optional<Movie> findMovieByMovieTitle(String movieTitle);
 
     @Modifying

@@ -31,7 +31,7 @@ public class MovieService {
             Long id = newmovie.getId();
             newmovie.setMovieRating(getAverageRating(id));
         }
-        return movieRepository.findAll();
+        return movies;
     }
 
 

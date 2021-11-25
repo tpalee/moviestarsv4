@@ -65,31 +65,58 @@ class MovieServiceTest {
 
 
     @Test
-    public void testGetMoviesWhenThereAreMovies(){
-        List<Movie> movies=new ArrayList<>();
-        Movie movie1=new Movie("movie1","action");
+    void deleteMovieTest() {
+        Movie movie = new Movie("title", "Action");
+        movie.setId(100);
+
+        Mockito
+                .when(movieRepository.existsById(100L))
+                .thenReturn(true);
+
+movieService.deleteMovie(100L);
+
+        Mockito.verify(movieRepository, times(1)).deleteReviewsForMovie(100L);
+        Mockito.verify(movieRepository, times(1)).deleteMovieById(100L);
+    }
+
+
+    @Test
+    public void GetMoviesWhenThereAreMoviesTest() {
+        List<Movie> movies = new ArrayList<>();
+        Movie movie1 = new Movie("movie1", "action");
         movie1.setId(1L);
         movie1.setMovieRating(8.0);
         movies.add(movie1);
-
 
         Mockito
                 .when(movieRepository.findAll())
                 .thenReturn(movies);
 
+        Mockito
+                .when(movieRepository.findById(1L))
+                .thenReturn(Optional.of(movie1));
 
-
-
+        Collection<Movie> testList = movieService.getMovies();
+        assertTrue(testList == movies);
     }
 
 
+    @Test
+    public void GetMoviesWhenThereAreNoMoviesTest() {
+        List<Movie> movies = new ArrayList<>();
 
+        Mockito
+                .when(movieRepository.findAll())
+                .thenReturn(movies);
 
-
+        Assertions.assertThrows(RecordNotFoundException.class, () -> {
+            movieService.getMovies();
+        }, "RecordNotFoundException error was expected");
+    }
 
 
     @Test
-    public void testGetAverageWhenMovieNotFoundThrowsExeption() {
+    public void GetAverageWhenMovieNotFoundThrowsExeptionTest() {
         Mockito
                 .when(movieRepository.findById(3L))
                 .thenReturn(Optional.empty());
@@ -101,7 +128,7 @@ class MovieServiceTest {
 
 
     @Test
-    public void testGetAverageWhenthereAreNoReviews() {
+    public void GetAverageWhenthereAreNoReviewsTest() {
         User user1 = new User();
         Movie movie1 = new Movie("Terminator", "action", user1);
         Movie movie2 = new Movie("Terminator2", "action", user1);
@@ -114,7 +141,7 @@ class MovieServiceTest {
     }
 
     @Test
-    public void testGetAverageWhenthereAreReviews() {
+    public void GetAverageWhenthereAreReviewsTest() {
         User user1 = new User();
         Movie movie1 = new Movie("Terminator", "action", user1);
         Movie movie2 = new Movie("Terminator2", "action", user1);
@@ -125,18 +152,13 @@ class MovieServiceTest {
         reviews.add(review2);
         movie1.setReviews(reviews);
 
-
         Mockito
                 .when(movieRepository.findById(1L))
                 .thenReturn(Optional.of(movie1));
 
-
         double expected = movieService.getAverageRating(1L);
         assertEquals(8.0, expected);
     }
-
-
-
 
 
 }
