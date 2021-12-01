@@ -1,5 +1,4 @@
 package nl.lee.moviestars.exceptions;
-
 import java.io.Serial;
 
 public class BadRequestException extends RuntimeException {

@@ -4,10 +4,12 @@ import nl.lee.moviestars.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin
 @ControllerAdvice
 public class ExceptionController {
 
@@ -33,6 +35,16 @@ public class ExceptionController {
 
     @ExceptionHandler(value = NotAuthorizedException.class)
     public ResponseEntity<Object> exception(NotAuthorizedException exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(value = MovieAlreadyExistsException.class)
+    public ResponseEntity<Object> exception(MovieAlreadyExistsException exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(value = UserAlreadyExistsException.class)
+    public ResponseEntity<Object> exception(UserAlreadyExistsException exception) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
     }
 
