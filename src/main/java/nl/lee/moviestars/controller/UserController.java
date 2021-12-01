@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.Map;
 
+
 @RestController
 @CrossOrigin
 public class UserController {
@@ -47,6 +48,14 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+
+    @DeleteMapping(value = "/users/{username}")
+    public ResponseEntity<Object> deleteUser(@PathVariable("username") String username) {
+        userService.deleteUser(username);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @GetMapping(value = "users/{id}/movies")
     public ResponseEntity getUserMovies(@PathVariable("id") String id) {
         Iterable<Movie> movies = userService.getMovies(id);
@@ -58,13 +67,6 @@ public class UserController {
     public ResponseEntity getReviews(@PathVariable("id") String id) {
         Iterable<Review> reviews = userService.getReviews(id);
         return ResponseEntity.ok(reviews);
-    }
-
-
-    @DeleteMapping(value = "/users/{username}")
-    public ResponseEntity<Object> deleteUser(@PathVariable("username") String username) {
-        userService.deleteUser(username);
-        return ResponseEntity.noContent().build();
     }
 
 

@@ -84,6 +84,7 @@ public class UserService {
         }
     }
 
+
     public Set<Authority> getAuthorities(String username) {
         Optional<User> userOptional = userRepository.findById(username);
         if (userOptional.isEmpty()) {
@@ -93,6 +94,7 @@ public class UserService {
             return user.getAuthorities();
         }
     }
+
 
     public void addAuthority(String username, String authorityString) {
         Optional<User> userOptional = userRepository.findById(username);
@@ -105,6 +107,7 @@ public class UserService {
         }
     }
 
+
     public void removeAuthority(String username, String authorityString) {
         Optional<User> userOptional = userRepository.findById(username);
         if (userOptional.isEmpty()) {
@@ -116,60 +119,23 @@ public class UserService {
         }
     }
 
-    private boolean isValidPassword(String password) {
-        final int MIN_LENGTH = 8;
-        final String SPECIAL_CHARS = "@#$%&*!()+=-_";
 
-        long countDigit = password.chars().filter(ch -> ch >= '0' && ch <= '9').count();
-        long countLower = password.chars().filter(ch -> ch >= 'a' && ch <= 'z').count();
-        long countUpper = password.chars().filter(ch -> ch >= 'A' && ch <= 'Z').count();
-        long countSpecial = password.chars().filter(ch -> SPECIAL_CHARS.indexOf(ch) >= 0).count();
-
-        boolean validPassword = true;
-        if (password.length() < MIN_LENGTH) validPassword = false;
-
-        return validPassword;
-    }
-
- /*   public void setPassword(String username, String password) {
-        if (username.equals(getCurrentUserName())) {
-            if (isValidPassword(password)) {
-                Optional<User> userOptional = userRepository.findById(username);
-                if (userOptional.isPresent()) {
-                    User user = userOptional.get();
-                    user.setPassword(passwordEncoder.encode(password));
-                    userRepository.save(user);
-                }
-                else {
-                    throw new UserNotFoundException(username);
-                }
-            }
-            else {
-                throw new InvalidPasswordException();
-            }
-        }
-        else {
-            throw new NotAuthorizedException();
-        }
-    }*/
-
-    //get all movies of a user
-    public Iterable<Movie> getMovies(String id) {
-        Optional<User> user = userRepository.findById(id);
+    public Iterable<Movie> getMovies(String username) {
+        Optional<User> user = userRepository.findById(username);
         if (user.isPresent()) {
             return user.get().getMovies();
         } else {
-            throw new RecordNotFoundException();
+            throw new UserNotFoundException(username);
         }
     }
 
 
-    public Iterable<Review> getReviews(String id) {
-        Optional<User> user = userRepository.findById(id);
+    public Iterable<Review> getReviews(String username) {
+        Optional<User> user = userRepository.findById(username);
         if (user.isPresent()) {
             return user.get().getReviews();
         } else {
-            throw new RecordNotFoundException();
+            throw new UserNotFoundException(username);
         }
     }
 

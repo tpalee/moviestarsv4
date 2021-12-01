@@ -1,4 +1,5 @@
 package nl.lee.moviestars.controller;
+
 import nl.lee.moviestars.model.Movie;
 import nl.lee.moviestars.model.Review;
 import nl.lee.moviestars.service.MovieService;
@@ -6,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import java.net.URI;
 import java.util.Collection;
 import java.util.Optional;
@@ -24,15 +26,14 @@ public class MovieController {
     }
 
 
-
     @GetMapping(value = "")
-    public ResponseEntity<Collection> getMovies(){
+    public ResponseEntity<Collection> getMovies() {
         return ResponseEntity.ok().body(movieService.getMovies());
     }
 
 
     @GetMapping(value = "/search")
-    public ResponseEntity<Object> findMovieByMovieTitle(@RequestParam(name="movieTitle") String name){
+    public ResponseEntity<Object> findMovieByMovieTitle(@RequestParam(name = "movieTitle") String name) {
         return ResponseEntity.ok().body(movieService.searchMovie(name));
     }
 
@@ -48,6 +49,7 @@ public class MovieController {
         long newId = movieService.createMovie(movie);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newId).toUri();
+
         return ResponseEntity.created(location).header("Access-Control-Expose-Headers", "Location").build();
     }
 
@@ -67,14 +69,14 @@ public class MovieController {
 
     @GetMapping(value = "/{id}/reviews")
     public ResponseEntity getReviews(@PathVariable("id") int id) {
-        Iterable<Review> movieReviews=movieService.getReviews(id);
+        Iterable<Review> movieReviews = movieService.getReviews(id);
         return ResponseEntity.ok(movieReviews);
     }
 
 
     @PatchMapping(value = "/{id}/images/{imageId}")
     public ResponseEntity<Object> patchImage(@PathVariable("id") Long id, @PathVariable("imageId") Long imageId) {
-         movieService.assignImageToMovie(id, imageId);
+        movieService.assignImageToMovie(id, imageId);
         return ResponseEntity.noContent().build();
     }
 

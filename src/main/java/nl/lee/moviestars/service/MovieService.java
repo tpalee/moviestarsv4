@@ -1,4 +1,5 @@
 package nl.lee.moviestars.service;
+
 import nl.lee.moviestars.exceptions.MovieAlreadyExistsException;
 import nl.lee.moviestars.exceptions.RecordNotFoundException;
 import nl.lee.moviestars.model.Image;
@@ -8,6 +9,7 @@ import nl.lee.moviestars.repository.ImageRepository;
 import nl.lee.moviestars.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -126,4 +128,6 @@ public class MovieService {
             throw new RecordNotFoundException();
         }
     }
+
+
 }

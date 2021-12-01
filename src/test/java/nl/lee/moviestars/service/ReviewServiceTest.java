@@ -1,10 +1,7 @@
 package nl.lee.moviestars.service;
 
 import nl.lee.moviestars.exceptions.RecordNotFoundException;
-import nl.lee.moviestars.model.Movie;
 import nl.lee.moviestars.model.Review;
-import nl.lee.moviestars.repository.ImageRepository;
-import nl.lee.moviestars.repository.MovieRepository;
 import nl.lee.moviestars.repository.ReviewRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,19 +18,13 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+
 
 @ExtendWith(MockitoExtension.class)
 public class ReviewServiceTest {
 
     @Mock
-    private MovieRepository movieRepository;
-
-    @Mock
     private ReviewRepository reviewRepository;
-
-    @Mock
-    private ImageRepository imageRepository;
 
     @InjectMocks
     private MovieService movieService = new MovieService();
@@ -44,7 +35,7 @@ public class ReviewServiceTest {
 
     @Test
     void createReviewTest() {
-        Review review = new Review("heel mooie", 7);
+        Review review = new Review("heel mooie film", 7);
         review.setId(100);
 
         Mockito
@@ -54,6 +45,7 @@ public class ReviewServiceTest {
         assertEquals(100, reviewService.createReview(review));
         Mockito.verify(reviewRepository, times(1)).save(review);
     }
+
 
     @Test
     public void GetReviewsWhenThereAreReviewsTest() {
@@ -81,7 +73,6 @@ public class ReviewServiceTest {
     @Test
     public void testGetBadLanguageWhenthereisBadLanguage() {
         List<Review> reviews = new ArrayList<>();
-
         Review review1 = new Review("mooi", 6);
         review1.setBadLanguage(true);
         reviews.add(review1);
@@ -112,6 +103,7 @@ public class ReviewServiceTest {
         Review expected = reviewService.findById(1L);
         assertEquals(expected, review1);
     }
+
 
     @Test
     void findByIdShouldThrowErrorWhenReviewIsNotFound() {
@@ -147,18 +139,38 @@ public class ReviewServiceTest {
         reviewService.updateBadlanguage(1L);
 
         assertTrue(review1.isBadLanguage());
-        Mockito.verify(reviewRepository,times(2)).save(review1);
+        Mockito.verify(reviewRepository, times(2)).save(review1);
 
         reviewRepository.deleteById(1L);
-        Mockito.verify(reviewRepository,times(1)).deleteById(1L);
+        Mockito.verify(reviewRepository, times(1)).deleteById(1L);
     }
 
 
+    @Test
+    void deleteReviewWhenReviewIsFoundTest() {
+        Review review1 = new Review("mooie film", 8.3);
+        review1.setId(1L);
+
+        Mockito
+                .when(reviewRepository.existsById(1L))
+                .thenReturn(true);
+
+        reviewService.deleteById(1L);
+
+        Mockito.verify(reviewRepository, times(1)).deleteById(1L);
+    }
 
 
+    @Test
+    void deleteReviewWhenReviewIsNotFoundTest() {
 
+        Mockito
+                .when(reviewRepository.existsById(1L))
+                .thenReturn(false);
 
-
-
+        Assertions.assertThrows(RecordNotFoundException.class, () -> {
+            reviewService.deleteById(1L);
+        }, "UserNotFoundException error was expected");
+    }
 
 }
