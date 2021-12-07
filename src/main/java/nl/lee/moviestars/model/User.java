@@ -126,10 +126,12 @@ public class User {
         return Objects.equals(username, user.username) && Objects.equals(email, user.email);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(username, email);
     }
+
 
     @Override
     public String toString() {

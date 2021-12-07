@@ -116,14 +116,9 @@ public class Movie {
         this.image = image;
     }
 
+    public String getMoviePoster() { return moviePoster; }
 
-    public String getMoviePoster() {
-        return moviePoster;
-    }
-
-    public void setMoviePoster(String moviePoster) {
-        this.moviePoster = moviePoster;
-    }
+    public void setMoviePoster(String moviePoster) { this.moviePoster = moviePoster; }
 
     public User getUser() {
         return user;

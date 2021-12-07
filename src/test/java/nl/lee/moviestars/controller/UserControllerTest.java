@@ -4,7 +4,6 @@ import nl.lee.moviestars.model.Authority;
 import nl.lee.moviestars.model.Movie;
 import nl.lee.moviestars.model.Review;
 import nl.lee.moviestars.model.User;
-import nl.lee.moviestars.repository.UserRepository;
 import nl.lee.moviestars.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
